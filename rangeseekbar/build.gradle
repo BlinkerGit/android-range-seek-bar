@@ -1,6 +1,6 @@
 buildscript {
     repositories {
-        mavenCentral()
+        jcenter()
     }
 
     dependencies {
@@ -32,7 +32,7 @@ android {
 
 dependencies {
     repositories {
-        mavenCentral()
+        jcenter()
     }
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
