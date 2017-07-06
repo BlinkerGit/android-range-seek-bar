@@ -970,9 +970,33 @@ public class RangeSeekBar<T extends Number> extends android.support.v7.widget.Ap
     }
     if (rangeType == RangeType.PREDEFINED || rangeType == RangeType.GENERATED) {
       if (predefinedRangeValues == null) return 1.0;
-      return predefinedRangeValues.indexOf(value) / (predefinedRangeValues.size() - 1.0);
+      return findClosesIndexToValue(value) / (predefinedRangeValues.size() - 1.0);
     }
     return (value.doubleValue() - absoluteMinValuePrim) / (absoluteMaxValuePrim - absoluteMinValuePrim);
+  }
+
+  /**
+   * Find the index closest to the value passed in
+   *
+   * @param value the Number value to find in the array
+   * @return index of the array that has the closest value
+   */
+  private int findClosesIndexToValue(T value) {
+    if (predefinedRangeValues == null || predefinedRangeValues.size() == 0) return -1;
+    if (value == null) return predefinedRangeValues.indexOf(null);
+
+    int closestIndex = 0;
+    double closestSoFar = Math.abs(predefinedRangeValues.get(0).doubleValue() - value.doubleValue());
+
+    for (int i = 1; i < predefinedRangeValues.size(); i++) {
+      double current = Math.abs(predefinedRangeValues.get(i).doubleValue() - value.doubleValue());
+      if (current < closestSoFar) {
+        closestIndex = i;
+        closestSoFar = current;
+      }
+    }
+
+    return closestIndex;
   }
 
   /**
